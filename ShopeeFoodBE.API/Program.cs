@@ -1,6 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using ShopeeFoodBE.BLL.IServices;
+using ShopeeFoodBE.BLL.Services;
+using ShopeeFoodBE.DAL.EF.Data;
+using ShopeeFoodBE.DAL.Repos.IServices;
+using ShopeeFoodBE.DAL.Repos.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
